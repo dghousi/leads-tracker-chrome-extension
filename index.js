@@ -1,35 +1,39 @@
 let myLeads = []
+let oldLeads = []
 const inputEl = document.getElementById('input-el')
 const inputBtn = document.getElementById('input-btn')
 const ulEl = document.getElementById('ul-el')
+const deleteBtn = document.getElementById('delete-btn')
+const leadsFromLocalStorage = JSON.parse(localStorage.getItem('myLeads'))
 
-let leadsFromLocalStorage = localStorage.getItem('myLeads').split(',')
-
-// 1. Check if leadsFromLocalStorage is truthy
 if (leadsFromLocalStorage) {
   myLeads = leadsFromLocalStorage
-
-  renderLeads()
+  render(myLeads)
 }
-// 2. If so, set myLeads to its value and call renderLeads()
 
-inputBtn.addEventListener('click', function () {
-  myLeads.push(inputEl.value)
-  inputEl.value = ''
-  localStorage.setItem('myLeads', myLeads)
-  renderLeads()
-})
-
-function renderLeads() {
+function render(t) {
   let listItems = ''
-  for (let i = 0; i < myLeads.length; i++) {
+  for (let i = 0; i < leads.length; i++) {
     listItems += `
             <li>
-                <a target='_blank' href='${myLeads[i]}'>
-                    ${myLeads[i]}
+                <a target='_blank' href='${leads[i]}'>
+                    ${leads[i]}
                 </a>
             </li>
         `
   }
   ulEl.innerHTML = listItems
 }
+
+deleteBtn.addEventListener('dblclick', function () {
+  localStorage.clear()
+  myLeads = []
+  render(myLeads)
+})
+
+inputBtn.addEventListener('click', function () {
+  myLeads.push(inputEl.value)
+  inputEl.value = ''
+  localStorage.setItem('myLeads', JSON.stringify(myLeads))
+  render(myLeads)
+})
